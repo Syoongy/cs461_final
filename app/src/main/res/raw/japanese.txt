@@ -1,0 +1,5 @@
+太陽	sun,moon,water,universe,earth
+月	moon,jupyter,mercury,venus,sun
+年	year,day,month,week,minute
+学校	school,office,shop,university,playground
+米	rice,grain,wheat,quinoa,oats

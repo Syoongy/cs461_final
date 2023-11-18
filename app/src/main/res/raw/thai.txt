@@ -1,0 +1,5 @@
+ดวงอาทิตย์	sun,moon,water,universe,earth
+ดวงจันทร์	moon,jupyter,mercury,venus,sun
+เดือน	month,day,year,week,minute
+โรงเรียน	school,office,shop,university,playground
+ข้าว	rice,grain,wheat,quinoa,oats

@@ -1,0 +1,5 @@
+해	sun,moon,water,universe,earth
+달	moon,jupyter,mercury,venus,sun
+월	month,day,year,week,minute
+학교	school,office,shop,university,playground
+쌀	rice,grain,wheat,quinoa,oats
