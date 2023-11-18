@@ -76,9 +76,14 @@ class BookProfiles : Fragment() {
                     }
                     val secondBookIv = act.findViewById<ImageView>(R.id.secondBookIV)
                     val secondBookTv = act.findViewById<TextView>(R.id.secondBookTV)
+                    val secondBookLayout = act.findViewById<LinearLayout>(R.id.secondBookLayout)
                     val secondBook = books?.get(1)!!
+                    val secondBookImageResource = bookResourceSelector(secondBook)
                     secondBookTv.text = secondBook
-                    secondBookIv.setImageResource(bookResourceSelector(secondBook))
+                    secondBookIv.setImageResource(secondBookImageResource)
+                    secondBookLayout.setOnClickListener { it ->
+                        bookClick(it, secondBookImageResource, secondBook)
+                    }
 
                 }
 
@@ -98,8 +103,9 @@ class BookProfiles : Fragment() {
             myIntent.putExtra("bookTitle", title)
             startActivity(myIntent)
         } else {
-            val detFrag = fragmentManager!!.findFragmentById(R.id.bookProfilesFragment) as DetailedProfile
-//            detFrag.displayPokemon(tag)
+            val detFrag =
+                fragmentManager!!.findFragmentById(R.id.bookDetailsFragment) as DetailedProfile
+            detFrag.displayProfile(title, imageResource)
         }
     }
 

@@ -1,10 +1,12 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,16 +29,34 @@ class DetailedProfile : Fragment() {
             bookImageResource = it.getInt(ARG_PARAM1)
             bookTitle = it.getString(ARG_PARAM2)
         }
-
-        val 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detailed_profile, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val act = activity
+        if (act != null) {
+            val bookName = act.intent.getStringExtra("bookTitle") ?: "Empty Title"
+            val bookResource =
+                act.intent.getIntExtra("bookImageResource", R.drawable.ic_launcher_background)
+            displayProfile(bookName, bookResource)
+        }
+    }
+
+    fun displayProfile(titleName: String, imageResource: Int) {
+        val act = activity
+        if (act?.intent != null) {
+            val titleTv = act.findViewById<TextView>(R.id.bookTitleTV)
+            val bookIv = act.findViewById<ImageView>(R.id.detailedBookIV)
+            titleTv.text = titleName
+            bookIv.setImageResource(imageResource)
+        }
     }
 
     companion object {
@@ -50,12 +70,11 @@ class DetailedProfile : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailedProfile().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = DetailedProfile().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 }
