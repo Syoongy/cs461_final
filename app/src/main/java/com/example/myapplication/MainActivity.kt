@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         "incorrect", Toast.LENGTH_SHORT
             ).show()
         } else {
-            val intent = Intent(this, LanguageLearningActivity::class.java)
+            val intent = Intent(this, BookProfilesActivity::class.java)
             startActivity(intent)
         }
     }

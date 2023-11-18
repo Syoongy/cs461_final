@@ -1,5 +1,0 @@
-सूरज	sun,moon,water,universe,earth
-चंद्रमा	moon,jupyter,mercury,venus,sun
-महीना	month,day,year,week,minute
-विद्यालय	school,office,shop,university,playground
-चावल	rice,grain,wheat,quinoa,oats

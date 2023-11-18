@@ -7,11 +7,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.io.FileNotFoundException
 import java.io.PrintStream
 import java.util.Scanner
 
 class RegisterActivity : AppCompatActivity() {
-    private val existingUsernamesList = ArrayList<String>()
+    private val usersMap = HashMap<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,23 +25,23 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun onRegisterBtnClick() {
         val usernameET = findViewById<EditText>(R.id.newUsernameTextInput)
+        val pwET = findViewById<EditText>(R.id.newPwTextInput)
+        val confirmPWET = findViewById<EditText>(R.id.pwConfirmTextInput)
         val username = usernameET.text.toString()
+        val pw = pwET.text.toString()
+        val confirmPW = confirmPWET.text.toString()
 
-        // If the username already exists we make a toast and return early
-        if (existingUsernamesList.contains(username)) {
+        // Try and retrieve from the map
+        val retPw = usersMap[username]
+        // Return early if there is already a combination
+        if (!retPw.isNullOrBlank()) {
             Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val pwET = findViewById<EditText>(R.id.newPwTextInput)
-        val confirmPWET = findViewById<EditText>(R.id.pwConfirmTextInput)
-        val pw = pwET.text.toString()
-        val confirmPW = confirmPWET.text.toString()
-
         // If the passwords do not match, we make a toast and return early
         if (pw != confirmPW) {
             Toast.makeText(this, "Password mismatch", Toast.LENGTH_SHORT).show()
-
             return
         }
 
@@ -49,13 +50,25 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun loadUsernames() {
+        // Retrieve our user-pw files
+        val scanners = ArrayList<Scanner>()
         val usernamePWScanner = Scanner(resources.openRawResource(R.raw.username_password))
-        while (usernamePWScanner.hasNextLine()) {
-            val line = usernamePWScanner.nextLine()
-            val lineVals = line.split("\t")
-            existingUsernamesList.add(lineVals[0])
+        scanners.add(usernamePWScanner)
+        try {
+            val extraUsersScanner = Scanner(openFileInput("extra_username_pw.txt"))
+            scanners.add(extraUsersScanner)
+        } catch (e: FileNotFoundException) {
         }
-        usernamePWScanner.close()
+        // Iterate through and add them to the existing usernames list
+        for (scanner in scanners) {
+            while (scanner.hasNextLine()) {
+                val line = scanner.nextLine()
+                val lineVals = line.split("\t")
+                // existingUsernamesList.add(lineVals[0])
+                usersMap[lineVals[0]] = lineVals[1]
+            }
+            scanner.close()
+        }
     }
 
     private fun registerUser(username: String, pw: String) {
